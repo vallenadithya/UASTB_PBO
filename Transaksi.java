@@ -1,8 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import com.mysql.cj.protocol.Resultset;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.sql.*;
 
 //Inheritance dan Interface (Child Class)
@@ -24,51 +22,32 @@ public class Transaksi extends Display implements Penjualan{
 
     @Override
     public void tambahdata() throws SQLException {
-		String text2 = "\n===Tambah Data Transaksi===";
-		//Method String
-        System.out.println(text2.toUpperCase());
-		
         //Exception
             try {
-            System.out.println("No. Faktur: ");
-            faktur = inputUser.nextLine();
+            System.out.println("Kode Barang: ");
+            kode = inputUser.nextLine();
 
             System.out.println("Nama Barang: ");
             namaBrg = inputUser.nextLine();
 
-            System.out.println("Harga Barang: ");
-            hargaBrg = inputUser.nextInt();
+            System.out.println("Harga Jual: ");
+            jual = inputUser.nextInt();
             
             System.out.println("Jumlah Barang: ");
-            jumlahBrg = inputUser.nextInt();
+            jumlah = inputUser.nextInt();
+            
+            System.out.println("Harga Beli: ");
+            beli = inputUser.nextInt();
+            
             //Proses matematis
-            sub=jumlahBrg*hargaBrg;
-            System.out.println("Sub Total Harga: "+sub);
-
-            //Percabangan
-            if(sub>1000000){
-                dis=20;
-            }
-            else if(sub>700000&&sub<=1000000){
-                dis=15;
-            }
-            else if(sub>500000&&sub<=700000){
-                dis=10;
-            }
-            else if(sub>250000&&sub<=500000){
-                dis=5;
-            }
-            else{
-                dis=0;
-            }
-            System.out.println("Discount: "+dis+"%");
-
-            //Proses matematis
-            total=sub-((sub*dis)/100);
-            System.out.println("Total Harga: "+total);
+            total=jual*jumlah;
+            System.out.println("Total Pendapatan: "+total);
+            //proses matematis
+            untung=(jual-beli)*jumlah;
+            System.out.println("Total Keuntungan: "+untung);
 
             //Pengolahan database
-            String sql = "INSERT INTO listtransaksi (no_faktur, nama_barang, harga, jumlah, sub_total, diskon, total) VALUES ('"+faktur+"','"+namaBrg+"','"+hargaBrg+"','"+jumlahBrg+"','"+sub+"','"+dis+"','"+total+"')";           			
+            String sql = "INSERT INTO listtransaksi (no_barang, nama_barang, harga_jual, jumlah, harga_beli, total_pendapatan, total_untung) VALUES ('"+kode+"','"+namaBrg+"','"+jual+"','"+jumlah+"','"+beli+"','"+total+"','"+untung+"')";           			
             conn = DriverManager.getConnection(url, "root", "");    
             Statement statement = conn.createStatement();
             statement.execute(sql);
@@ -80,40 +59,30 @@ public class Transaksi extends Display implements Penjualan{
             	System.err.println("Inputlah dengan angka saja");
             }
     }
-
     @Override
     public void ubahdata() throws SQLException{
-		String text3 = "\n===Ubah Data Transaksi===";
+		String text3 = "\n===Ubah Nama Barang===";
         //Method String
 		System.out.println(text3.toUpperCase());
 		
             try {
-                //Overloading
+                //overload
                 lihatdata();
-                System.out.print("Masukkan No. Faktur yang akan di ubah atau update : ");
-                String faktur = inputUser.nextLine();             
+                System.out.print("Masukkan Kode Barang yang akan di ubah atau update : ");
+                kode = inputUser.nextLine();     
 
-                //Pengolahan database
-                String sql = "SELECT * FROM listtransaksi WHERE no_faktur = " +faktur;
-                conn = DriverManager.getConnection(url, "root", "");
-                Statement statement = conn.createStatement();
-                ResultSet result = statement.executeQuery(sql);
-                //percabangan
-                if(result.next()){
-                    System.out.print("Nama Barang ["+result.getString("nama_barang")+"]\t: ");
-                    String namaBrg = inputUser.nextLine();
-                    
+                    System.out.print("Nama Barang \t: ");
+                    namaBrg = inputUser.nextLine();
                     //Pengolahan database
-                    sql = "UPDATE transaksi SET nama_barang='"+namaBrg+"' WHERE no_faktur='"+faktur+"'";
-                    
+                    String sql = "UPDATE listtransaksi SET nama_barang='"+namaBrg+"' WHERE no_barang='"+kode+"'";
+                    conn = DriverManager.getConnection(url, "root", "");
+                    Statement statement = conn.createStatement();
+
                     if(statement.executeUpdate(sql) > 0){
-                        System.out.println("Berhasil memperbaharui data transaksi (No.faktur "+faktur+")");
+                        System.out.println("Berhasil memperbaharui data transaksi (Kode Barang "+kode+")");
                     }
-                }
-                //jdbc statement
                 statement.close();        
             } 
-            //Error Handling
             catch (SQLException e) {
                 System.err.println("Terjadi kesalahan dalam mengedit data");
                 System.err.println(e.getMessage());
@@ -130,22 +99,24 @@ public class Transaksi extends Display implements Penjualan{
                 try{
                     //Overloading
                     lihatdata();
-                    System.out.print("Ketik No. Faktur Transaksi yang akan Anda Hapus : ");
-                    String faktur = inputUser.nextLine();
+                    System.out.print("Ketik Kode Barang Transaksi yang akan Anda Hapus : ");
+                    kode = inputUser.nextLine();
                     
                     //Pengolahan database
-                    String sql = "DELETE FROM listtransaksi WHERE no_faktur = "+faktur;
+                    String sql = "DELETE FROM listtransaksi WHERE no_barang = "+kode;
                     conn = DriverManager.getConnection(url, "root", "");
                     Statement statement = conn.createStatement();
                     
                     if(statement.executeUpdate(sql) > 0){
-                        System.out.println("Berhasil menghapus data transaksi (No.faktur "+faktur+")");
-                    }
+                        System.out.println("Berhasil menghapus data transaksi (Kode Barang "+kode+")");}
+                        else{
+                            System.out.println("Input Salah");
+                        }
                     }
                     catch(SQLException e){
-                        System.out.println("Terjadi kesalahan dalam menghapus data");
-                            }   
-                    }
+                            System.out.println(e);
+                    }    
+                }
  
         @Override
         public void caridata () throws SQLException {
@@ -153,31 +124,30 @@ public class Transaksi extends Display implements Penjualan{
             //Method String
             System.out.println(text5.toUpperCase());
             
-                System.out.print("Masukkan Nama Barang : ");
-                
+                System.out.print("Masukkan Kode Barang : ");
                 String keyword = inputUser.nextLine();
                 
                 //Pengolahan database
-                String sql = "SELECT * FROM listtransaksi WHERE nama_barang LIKE '%"+keyword+"%'";
+                String sql = "SELECT * FROM listtransaksi WHERE no_barang LIKE '%"+keyword+"%'";
                 conn = DriverManager.getConnection(url, "root", "");
                 Statement statement = conn.createStatement();
                 ResultSet result = statement.executeQuery(sql); 
                 //Perulangan
                 while(result.next()){
-                    System.out.print("\nNo. Faktur\t: ");
-                    System.out.print(result.getString("no_faktur"));
+                    System.out.print("\nKode Barang\t: ");
+                    System.out.print(result.getString("no_barang"));
                     System.out.print("\nNama Barang\t: ");
                     System.out.print(result.getString("nama_barang"));
-                    System.out.print("\nHarga Barang\t: Rp ");
-                    System.out.print(result.getInt("harga"));
+                    System.out.print("\nHarga Jual\t: Rp ");
+                    System.out.print(result.getInt("harga_jual"));
                     System.out.print("\nJumlah Barang\t: ");
                     System.out.print(result.getInt("jumlah"));
-                    System.out.print("\nSubtotal\t: Rp ");
-                    System.out.print(result.getInt("sub_total"));
-                    System.out.print("\nDiskon\t\t: "+result.getInt("diskon")+"%");
-                    System.out.print("\nTotal Harga\t: Rp ");
-                    System.out.print(result.getInt("total"));
-                    System.out.print("\n");
+                    System.out.print("\nHarga Beli\t: Rp ");
+                    System.out.print(result.getInt("harga_beli"));
+                    System.out.print("\nTotal Pendapatan: Rp\t"+result.getInt("total_pendapatan"));
+                    System.out.print("\nTotal Keuntungan: Rp ");
+                    System.out.print(result.getInt("total_untung"));
+                    System.out.print("\n\n");
                 }
             }
             

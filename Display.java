@@ -5,8 +5,8 @@ import java.sql.*;
 public class Display{
     static Connection conn;    
     String url = "jdbc:mysql://localhost:3306/transaksi";
-    public  String namaBrg, faktur;
-    public Integer jumlahBrg,sub,dis,total,hargaBrg;
+    public  String namaBrg, kode;
+    public Integer jumlah,jual,beli,total,untung;
 
     public void displaydata() throws SQLException {
         //Pengolahan database
@@ -17,19 +17,19 @@ public class Display{
 
 		//Perulangan
 		while(result.next()){
-			System.out.print("\nNo. Faktur\t: ");
-            System.out.print(result.getString("no_faktur"));
+			System.out.print("\nKode Barang\t: ");
+            System.out.print(result.getString("no_barang"));
             System.out.print("\nNama Barang\t: ");
             System.out.print(result.getString("nama_barang"));
-            System.out.print("\nHarga Barang\t: Rp ");
-            System.out.print(result.getInt("harga"));
+            System.out.print("\nHarga Jual\t: Rp ");
+            System.out.print(result.getInt("harga_jual"));
             System.out.print("\nJumlah Barang\t: ");
             System.out.print(result.getInt("jumlah"));
-            System.out.print("\nSubtotal\t: Rp ");
-            System.out.print(result.getInt("sub_total"));
-            System.out.print("\nDiskon\t\t: "+result.getInt("diskon")+"%");
-            System.out.print("\nTotal Harga\t: Rp ");
-            System.out.print(result.getInt("total"));
+            System.out.print("\nHarga Beli\t: Rp ");
+            System.out.print(result.getInt("harga_beli"));
+            System.out.print("\nTotal Pendapatan: Rp"+result.getInt("total_pendapatan"));
+            System.out.print("\nTotal Keuntungan: Rp ");
+            System.out.print(result.getInt("total_untung"));
             System.out.print("\n\n");
 		}
     }

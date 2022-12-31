@@ -2,10 +2,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
-import com.mysql.cj.protocol.Resultset;
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 //Driver Class
 public class Program{
     //koneksi db
@@ -29,7 +25,7 @@ public class Program{
                         Transaksi goods = new Transaksi();
                     //Collection Framework
                     LinkedList<String> toko = new LinkedList<String>();
-                    toko.add("Manajemen Transaksi Minimarket");
+                    toko.add("Manajemen Penjualan Minimarket");
                     toko.add("Padang");
                     System.out.println(toko);
                         //Perulangan
@@ -53,6 +49,9 @@ public class Program{
                                 goods.lihatdata();
                     			break;
                     		case "2":
+                                String text2 = "\n===Tambah Data Transaksi===";
+                                 //Method String
+                                System.out.println(text2.toUpperCase());
                                 goods.tambahdata();
                     			break;
                     		case "3":
@@ -83,9 +82,9 @@ public class Program{
                     	System.exit(0);
                     }
                     catch(SQLException e){
-                    	System.err.println(e);
+                    	System.err.println("SQL Operation Error");
                     }
-                   
+                 terimaInput.close();  
                 }
             }
 }
