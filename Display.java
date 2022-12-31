@@ -1,4 +1,3 @@
-import com.mysql.cj.protocol.Resultset;
 import java.sql.*;
 
 //Inheritance (parent Class)

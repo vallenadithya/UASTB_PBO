@@ -1,6 +1,5 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.io.BufferedReader;
 import java.sql.*;
 
 //Inheritance dan Interface (Child Class)
@@ -150,5 +149,4 @@ public class Transaksi extends Display implements Penjualan{
                     System.out.print("\n\n");
                 }
             }
-            
-}
+        }
