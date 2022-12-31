@@ -1,9 +1,12 @@
 import com.mysql.cj.protocol.Resultset;
 import java.sql.*;
 
+//Inheritance (parent Class)
 public class Display{
     static Connection conn;    
     String url = "jdbc:mysql://localhost:3306/transaksi";
+    public  String namaBrg, faktur;
+    public Integer jumlahBrg,sub,dis,total,hargaBrg;
 
     public void displaydata() throws SQLException {
         //Pengolahan database
@@ -15,7 +18,7 @@ public class Display{
 		//Perulangan
 		while(result.next()){
 			System.out.print("\nNo. Faktur\t: ");
-            System.out.print(result.getInt("no_faktur"));
+            System.out.print(result.getString("no_faktur"));
             System.out.print("\nNama Barang\t: ");
             System.out.print(result.getString("nama_barang"));
             System.out.print("\nHarga Barang\t: Rp ");
@@ -27,7 +30,7 @@ public class Display{
             System.out.print("\nDiskon\t\t: "+result.getInt("diskon")+"%");
             System.out.print("\nTotal Harga\t: Rp ");
             System.out.print(result.getInt("total"));
-            System.out.print("\n");
+            System.out.print("\n\n");
 		}
     }
 }

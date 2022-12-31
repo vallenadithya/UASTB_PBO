@@ -1,23 +1,17 @@
-import java.util.InputMismatchException;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.Date;
 import java.sql.*;
+import java.util.*;
+import java.util.Date;
+
 import com.mysql.cj.protocol.Resultset;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
 //Driver Class
 public class Program{
-
-    static Connection conn;    
+    //koneksi db
+    static Connection conn; 
+    //Main Function   
     public static void main(String[] args){
-            //Collection Framework
-            LinkedList<String> toko = new LinkedList<String>();
-            toko.add("Toko Minimarket");
-            toko.add("Padang");
-            System.out.println(toko);
-            
             //Exception
             try (
                 Scanner terimaInput = new Scanner (System.in)) {
@@ -30,14 +24,18 @@ public class Program{
                     try{
                         Class.forName("com.mysql.cj.jdbc.Driver");
                     	conn = DriverManager.getConnection(url,"root","");
-                    	System.out.println("\nClass Driver ditemukan");
+                    	System.out.println("Class Driver ditemukan\n");
                     	
                         Transaksi goods = new Transaksi();
-                    	
+                    //Collection Framework
+                    LinkedList<String> toko = new LinkedList<String>();
+                    toko.add("Manajemen Transaksi Minimarket");
+                    toko.add("Padang");
+                    System.out.println(toko);
                         //Perulangan
                         while (lanjut==true) {
                     		System.out.println("\n------------------");
-                    		System.out.println("Database Transaksi");
+                    		System.out.println("Menu Transaksi");
                     		System.out.println("------------------");
                     		System.out.println("1. Lihat Data Transaksi");
                     		System.out.println("2. Tambah Data Transaksi");
@@ -72,13 +70,12 @@ public class Program{
                     		default:
                     			System.err.println("\nInput anda tidak ditemukan\nSilakan pilih [1-6]");
                     		}
-                    		
                     	}
                         // Method Date
                         Date tgl = new Date();
                         String str = String.format("\nTanggal/Waktu sekarang: %tc", tgl);
                         System.out.println(str);
-                    	System.out.println("\nBye.... Selamat Berjumpa Kembali!!!");
+                    	System.out.println("\nBye.... Sampai jumpa!");
                     	
                     }
                     catch(ClassNotFoundException ex) {
@@ -86,8 +83,9 @@ public class Program{
                     	System.exit(0);
                     }
                     catch(SQLException e){
-                    	System.err.println("Tidak berhasil koneksi");
+                    	System.err.println(e);
                     }
+                   
                 }
             }
 }

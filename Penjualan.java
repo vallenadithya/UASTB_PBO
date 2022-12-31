@@ -1,6 +1,6 @@
 import java.sql.*;
 
-//Interface
+//Interface Class
 public interface Penjualan{
     public void lihatdata() throws SQLException;
     public void tambahdata()throws SQLException;
