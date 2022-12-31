@@ -21,7 +21,7 @@ public class Program{
                         Class.forName("com.mysql.cj.jdbc.Driver");
                     	conn = DriverManager.getConnection(url,"root","");
                     	System.out.println("Class Driver ditemukan\n");
-                    	
+                    	//creating new object dari contructor
                         Transaksi goods = new Transaksi();
                     //Collection Framework
                     LinkedList<String> toko = new LinkedList<String>();

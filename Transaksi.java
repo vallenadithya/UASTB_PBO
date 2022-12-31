@@ -7,7 +7,7 @@ public class Transaksi extends Display implements Penjualan{
     //Constructor
     public Transaksi() {
     }
-
+    
     Scanner inputUser = new Scanner(System.in);
 
     @Override
@@ -63,16 +63,14 @@ public class Transaksi extends Display implements Penjualan{
 		String text3 = "\n===Ubah Nama Barang===";
         //Method String
 		System.out.println(text3.toUpperCase());
-		
+            //error handling
             try {
-                //overload
-                lihatdata();
                 System.out.print("Masukkan Kode Barang yang akan di ubah atau update : ");
-                kode = inputUser.nextLine();     
-
-                    System.out.print("Nama Barang \t: ");
-                    namaBrg = inputUser.nextLine();
-                    //Pengolahan database
+                kode = inputUser.nextLine();
+                System.out.print("Nama Barang \t: ");
+                namaBrg = inputUser.nextLine();
+                    
+                //Pengolahan database
                     String sql = "UPDATE listtransaksi SET nama_barang='"+namaBrg+"' WHERE no_barang='"+kode+"'";
                     conn = DriverManager.getConnection(url, "root", "");
                     Statement statement = conn.createStatement();
@@ -102,10 +100,9 @@ public class Transaksi extends Display implements Penjualan{
                     kode = inputUser.nextLine();
                     
                     //Pengolahan database
-                    String sql = "DELETE FROM listtransaksi WHERE no_barang = "+kode;
+                    String sql = "DELETE FROM listtransaksi WHERE no_barang='"+kode+"'";
                     conn = DriverManager.getConnection(url, "root", "");
                     Statement statement = conn.createStatement();
-                    
                     if(statement.executeUpdate(sql) > 0){
                         System.out.println("Berhasil menghapus data transaksi (Kode Barang "+kode+")");}
                         else{

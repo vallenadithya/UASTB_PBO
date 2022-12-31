@@ -2,6 +2,7 @@ import java.sql.*;
 
 //Inheritance (parent Class)
 public class Display{
+    //koneksi jdbc
     static Connection conn;    
     String url = "jdbc:mysql://localhost:3306/transaksi";
     public  String namaBrg, kode;
